@@ -3,11 +3,13 @@
 # Date: 2024/06/09
 # Description: Portfolio project of an implementation of a chess variant, Atomic Chess.
 
+from typing import List, Tuple
+
 class ChessVar:
     """ Represents a ChessVar implementation with methods based on atomic chess"""
-    def __init__(self):
+    def __init__(self) -> None:
         """ Initialize data members"""
-        self._board = [
+        self._board: List[List[str]] = [
             ['r', 'n', 'b', 'q', 'k', 'b', 'n', 'r'],
             ['p', 'p', 'p', 'p', 'p', 'p', 'p', 'p'],
             ['.', '.', '.', '.', '.', '.', '.', '.'],
@@ -17,14 +19,14 @@ class ChessVar:
             ['P', 'P', 'P', 'P', 'P', 'P', 'P', 'P'],
             ['R', 'N', 'B', 'Q', 'K', 'B', 'N', 'R']
         ]
-        self._current_turn = 'white'
-        self._game_state = 'UNFINISHED'
+        self._current_turn: str = 'white'
+        self._game_state: str = 'UNFINISHED'
 
-    def get_game_state(self):
+    def get_game_state(self) -> str:
         """ Returns game state """
         return self._game_state
 
-    def is_valid_move(self, start, end):
+    def is_valid_move(self, start: Tuple[int, int], end: Tuple[int, int]) -> bool:
         """
         Method to validate the move being entered
         Parameters: start position; end position
@@ -94,7 +96,7 @@ class ChessVar:
         # Catch case that does not match any of the piece types
         return False
 
-    def make_move(self, start_pos, end_pos):
+    def make_move(self, start_pos: str, end_pos: str) -> bool:
         """
         Method to execute a move entered by the player
         Parameters: start position; end position
@@ -148,15 +150,15 @@ class ChessVar:
 
         return True
 
-    def pos_to_indices(self, pos):
+    def pos_to_indices(self, pos: str) -> Tuple[int, int]:
         """ Method to determine the index to identify location on board"""
         col_letters = 'abcdefgh'
         col = col_letters.index(pos[0])
         row = 8 - int(pos[1])
         return row, col
 
-    def kings_both_exist(self):
-        # Method to check if kings still exist to help determine if the game is over
+    def kings_both_exist(self) -> bool:
+        """ Method to check if kings still exist to help determine if the game is over """
         white_king = False
         black_king = False
         for row in self._board:
@@ -167,8 +169,8 @@ class ChessVar:
                     black_king = True
         return white_king and black_king
 
-    def explode(self, pos):
-        # Method for atomic explosion - 8 squares immediately surrounding the captured piece in all the directions
+    def explode(self, pos: Tuple[int, int]) -> None:
+        """ Method for atomic explosion - 8 squares immediately surrounding the captured piece in all the directions """
         row, col = pos
         for row in range(row - 1, row + 2):
             for col in range(col - 1, col + 2):
@@ -176,8 +178,8 @@ class ChessVar:
                 if 0 <= row < 8 and 0 <= col < 8 and self._board[row][col].lower() != 'p':
                     self._board[row][col] = '.'
 
-    def print_board(self):
-        # Method for printing board
+    def print_board(self) -> None:
+        """ Method for printing board """
         for row in self._board:
             print(' '.join(row))
         print()
