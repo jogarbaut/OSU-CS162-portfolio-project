@@ -1,0 +1,6 @@
+run = "python3 play.py"
+language = "python3"
+entrypoint = "play.py"
+
+[nix]
+channel = "stable-22_11"
